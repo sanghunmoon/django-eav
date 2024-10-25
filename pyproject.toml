@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "djangoeav"
+version = "0.1.0"
+description = ""
+authors = ["sanghunmoon <lego0142@naver.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.1.1"
+django-mysql = "^4.14.0"
+elasticsearch-dsl = "^8.15.3"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+pytest = "^8.3.3"
+pytest-django = "^4.9.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
