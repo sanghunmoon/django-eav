@@ -20,10 +20,7 @@ def filter_eav(attr_values: dict[Attribute, any]):
 def sort(attrs: list[Attribute]):
     queryset = Entity.objects.all()
     for attr in attrs:
-        queryset = queryset.filter(
-            value__attribute=attr,
-            value__isnull=False,
-        )
+        queryset = queryset.filter(value__attribute=attr)
         last_alias = queryset.query.where.children[-1].lhs.alias
         order_by = OrderBy(RawSQL(f"{last_alias}.value", []))
         queryset.query.order_by += (order_by,)
