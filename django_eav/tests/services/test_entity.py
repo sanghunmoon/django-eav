@@ -6,7 +6,6 @@ from django_eav.services.entity import create, sort, filter_eav
 pytestmark = pytest.mark.django_db
 
 
-@pytest.mark.django_db(transaction=True)
 def test_create_entity():
     entity = create(
         "entity1",
@@ -22,22 +21,33 @@ def test_create_entity():
 
 
 def test_filter():
+    # Given
     attr1 = Attribute.objects.create(name="attr1", attribute_type="text")
     attr2 = Attribute.objects.create(name="attr2", attribute_type="integer")
     entity1 = create("entity1", {attr1: "value1", attr2: 1})
     create("entity2", {attr1: "value1", attr2: 2})
     create("entity3", {attr1: "value2", attr2: 1})
     create("entity4", {attr1: "value2", attr2: 2})
+
+    # When
     entities = filter_eav({attr1: "value1", attr2: 1})
+
+    # Then
     assert entities.count() == 1
     assert entities[0] == entity1
 
 
 def test_sort():
-    attr1 = Attribute.objects.create(name="attr1", attribute_type="integer")
-    entity1 = create("entity1", {attr1: 3})
-    entity2 = create("entity2", {attr1: 2})
-    entity3 = create("entity3", {attr1: 4})
-    entity4 = create("entity4", {attr1: 1})
-    entities = sort([attr1])
-    assert list(entities) == [entity4, entity2, entity1, entity3]
+    # Given
+    attr1 = Attribute.objects.create(name="attr1", attribute_type="text")
+    attr2 = Attribute.objects.create(name="attr2", attribute_type="integer")
+    entity1 = create("entity1", {attr1: "value1", attr2: 3})
+    entity2 = create("entity2", {attr1: "value1", attr2: 2})
+    entity3 = create("entity3", {attr1: "value2", attr2: 1})
+    entity4 = create("entity4", {attr1: "value2", attr2: 4})
+
+    # When
+    entities = sort([attr1, attr2])
+
+    # Then
+    assert list(entities) == [entity2, entity1, entity3, entity4]
