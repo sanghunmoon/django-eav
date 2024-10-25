@@ -11,6 +11,7 @@ django = "^5.1.1"
 django-mysql = "^4.14.0"
 elasticsearch-dsl = "^8.15.3"
 django-extensions = "^3.2.3"
+load-dotenv = "^0.1.0"
 
 
 [tool.poetry.group.dev.dependencies]

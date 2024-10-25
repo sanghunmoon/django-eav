@@ -1,7 +1,8 @@
+import os
+
 import pytest
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, Index
-from elasticsearch_dsl import connections
 
 from django_eav.models import Attribute
 from django_eav.services.elasticsearch import (
@@ -27,10 +28,7 @@ def attr2():
 def es_connection(attr1, attr2):
     es = Elasticsearch(
         hosts=["https://localhost:9200"],
-        verify_certs=False,
-    )
-    connections.create_connection(
-        hosts=["https://localhost:9200"],
+        http_auth=(os.getenv("ELASTIC_USERNAME"), os.getenv("ELASTIC_PASSWORD")),
         verify_certs=False,
     )
     index = Index("entities")

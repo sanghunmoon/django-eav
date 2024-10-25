@@ -1,7 +1,14 @@
+import os
+
 from elasticsearch_dsl import Search, Q, connections
 
 from django_eav.models import Attribute
 
+connections.create_connection(
+    hosts=["https://localhost:9200"],
+    http_auth=(os.getenv("ELASTIC_USERNAME"), os.getenv("ELASTIC_PASSWORD")),
+    verify_certs=False,
+)
 es = connections.get_connection()
 
 
